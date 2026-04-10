@@ -3,8 +3,56 @@ let previousInput = '';
 let operator = null;
 let shouldResetScreen = false;
 
-const resultEl = document.getElementById('result');
+const resultEl     = document.getElementById('result');
 const expressionEl = document.getElementById('expression');
+const historyPanel = document.getElementById('historyPanel');
+const historyList  = document.getElementById('historyList');
+const historyToggleBtn = document.getElementById('historyToggle');
+
+// Load history from localStorage
+let history = JSON.parse(localStorage.getItem('calcHistory') || '[]');
+renderHistory();
+
+function toggleHistory() {
+  const open = historyPanel.classList.toggle('open');
+  historyToggleBtn.classList.toggle('active', open);
+}
+
+function addToHistory(expr, result) {
+  history.unshift({ expr, result });
+  if (history.length > 50) history.pop();
+  localStorage.setItem('calcHistory', JSON.stringify(history));
+  renderHistory();
+}
+
+function clearHistory() {
+  history = [];
+  localStorage.removeItem('calcHistory');
+  renderHistory();
+}
+
+function renderHistory() {
+  if (history.length === 0) {
+    historyList.innerHTML = '<li class="history-empty">No calculations yet</li>';
+    return;
+  }
+  historyList.innerHTML = history.map((item, i) => `
+    <li class="history-item" onclick="recallHistory(${i})">
+      <span class="h-expr">${item.expr}</span>
+      <span class="h-result">${item.result}</span>
+    </li>
+  `).join('');
+}
+
+function recallHistory(index) {
+  const item = history[index];
+  currentInput = item.result;
+  shouldResetScreen = true;
+  updateDisplay(currentInput);
+  // close panel
+  historyPanel.classList.remove('open');
+  historyToggleBtn.classList.remove('active');
+}
 
 function updateDisplay(value) {
   // Shrink font for long numbers
@@ -92,7 +140,9 @@ function calculate(chained = false) {
   const formatted = result === 'Error' ? 'Error' : parseFloat(result.toPrecision(10)).toString();
 
   if (!chained) {
-    expressionEl.textContent = `${previousInput} ${operator} ${currentInput} =`;
+    const expr = `${previousInput} ${operator} ${currentInput} =`;
+    expressionEl.textContent = expr;
+    addToHistory(`${previousInput} ${operator} ${currentInput}`, formatted);
     operator = null;
   }
 
