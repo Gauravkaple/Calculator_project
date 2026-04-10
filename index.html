@@ -9,7 +9,24 @@
 <body>
   <div class="wrapper">
     <div class="calculator">
+
+      <!-- History Panel -->
+      <div class="history-panel" id="historyPanel">
+        <div class="history-header">
+          <span>History</span>
+          <button class="history-clear" onclick="clearHistory()">Clear</button>
+        </div>
+        <ul class="history-list" id="historyList">
+          <li class="history-empty">No calculations yet</li>
+        </ul>
+      </div>
+
       <div class="display">
+        <button class="history-toggle" id="historyToggle" onclick="toggleHistory()" title="History">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </button>
         <div class="expression" id="expression"></div>
         <div class="result" id="result">0</div>
       </div>
