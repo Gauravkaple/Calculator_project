@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <div class="calculator">
+      <div class="display">
+        <div class="expression" id="expression"></div>
+        <div class="result" id="result">0</div>
+      </div>
+      <div class="buttons">
+        <button class="btn span-two clear" onclick="clearAll()">AC</button>
+        <button class="btn toggle" onclick="toggleSign()">+/−</button>
+        <button class="btn operator" onclick="inputOperator('%')">%</button>
+
+        <button class="btn" onclick="inputDigit('7')">7</button>
+        <button class="btn" onclick="inputDigit('8')">8</button>
+        <button class="btn" onclick="inputDigit('9')">9</button>
+        <button class="btn operator" onclick="inputOperator('÷')">÷</button>
+
+        <button class="btn" onclick="inputDigit('4')">4</button>
+        <button class="btn" onclick="inputDigit('5')">5</button>
+        <button class="btn" onclick="inputDigit('6')">6</button>
+        <button class="btn operator" onclick="inputOperator('×')">×</button>
+
+        <button class="btn" onclick="inputDigit('1')">1</button>
+        <button class="btn" onclick="inputDigit('2')">2</button>
+        <button class="btn" onclick="inputDigit('3')">3</button>
+        <button class="btn operator" onclick="inputOperator('−')">−</button>
+
+        <button class="btn span-two" onclick="inputDigit('0')">0</button>
+        <button class="btn" onclick="inputDot()">.</button>
+        <button class="btn operator equals" onclick="calculate()">=</button>
+
+        <button class="btn operator" onclick="inputOperator('+')">+</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f0f13;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+/* Ambient glow background */
+body::before {
+  content: '';
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.wrapper {
+  animation: floatIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes floatIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.92); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+.calculator {
+  width: 340px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255,255,255,0.04) inset;
+  overflow: hidden;
+}
+
+/* Display */
+.display {
+  padding: 28px 24px 20px;
+  text-align: right;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.expression {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.35);
+  min-height: 20px;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  word-break: break-all;
+}
+
+.result {
+  font-size: 52px;
+  font-weight: 300;
+  color: #ffffff;
+  letter-spacing: -1px;
+  line-height: 1;
+  transition: all 0.15s ease;
+  word-break: break-all;
+}
+
+.result.pop {
+  animation: pop 0.15s ease;
+}
+
+@keyframes pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+/* Buttons grid */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.btn {
+  position: relative;
+  padding: 0;
+  height: 72px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.03);
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease, color 0.15s ease;
+  overflow: hidden;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.btn:active {
+  transform: scale(0.94);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Ripple */
+.btn .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(0);
+  animation: ripple 0.45s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* Span two columns */
+.span-two {
+  grid-column: span 2;
+}
+
+/* Utility buttons (AC, +/−, %) */
+.clear, .toggle {
+  color: #e0e0e0;
+  font-size: 18px;
+}
+
+/* Operator buttons */
+.operator {
+  color: #a78bfa;
+  font-weight: 500;
+}
+
+.operator:hover {
+  background: rgba(167, 139, 250, 0.12);
+}
+
+.operator:active {
+  background: rgba(167, 139, 250, 0.22);
+}
+
+/* Equals button */
+.equals {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #ffffff;
+  font-size: 22px;
+}
+
+.equals:hover {
+  background: linear-gradient(135deg, #7274f3, #9d6ef8);
+}
+
+.equals:active {
+  background: linear-gradient(135deg, #5254d0, #7a4de0);
+  transform: scale(0.94);
+}
+
+/* Active operator highlight */
+.btn.active-op {
+  background: rgba(167, 139, 250, 0.18);
+  color: #c4b5fd;
+}
